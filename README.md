@@ -1,17 +1,21 @@
 📊 Customer Churn Analysis & Prediction
+
 📌Overview
+
 Customer churn is an important business problem for telecommunications companies because losing existing customers can affect revenue and increase the need for customer acquisition.
 This project analyzes customer data to understand the factors associated with churn and develops a machine learning classification model to predict whether a customer is likely to churn.
 The project covers the complete workflow from data cleaning and exploratory analysis to feature selection, class-imbalance handling, model comparison, hyperparameter tuning, model evaluation, and model persistence.
 The final model is a tuned XGBoost classification model with feature selection and SMOTE, selected primarily for its ability to identify customers who churn.
 
  Business Problem
+ 
 Customer churn is an important challenge for telecommunications companies, as losing customers can negatively impact business performance and customer retention.
 This project focuses on analyzing customer churn within a telecommunications company and developing predictive models to identify customers who are at risk of churning.
 The analysis aims to understand the factors and customer characteristics associated with churn, while the predictive modeling component aims to identify customers who are more likely to leave.
 The ultimate goal is to use the findings from the analysis and predictive models to provide actionable insights and recommendations that can help reduce customer churn and improve customer retention.
 
 Objectives
+
 The project objectives were to:
 •	Understand the structure and characteristics of the customer dataset.
 •	Clean and prepare the data for analysis.
@@ -27,7 +31,9 @@ The project objectives were to:
 •	Evaluate the final model using classification metrics.
 •	Save the final trained model for future use.
 •	Translate the findings into business recommendations.
+
 📊 Dataset
+
 The dataset contains 7,043 customer records and 21 original columns.
 The variables cover customer demographics, account information, services, payment methods, and financial information.
 Customer Information
@@ -62,6 +68,7 @@ Yes → Customer churned
 Therefore, the problem was treated as a binary classification problem.
 
 🔄 Project Workflow
+
 Raw Dataset
      ↓
 Data Inspection
@@ -91,7 +98,9 @@ Hyperparameter Tuning
 Final Model Evaluation
      ↓
 Model Persistence
+
  1. Data Cleaning & Preparation
+
 The first stage involved inspecting the dataset structure, data types, missing values, duplicate records, and descriptive statistics.
 TotalCharges Data Type
 The TotalCharges column was initially stored as an object rather than a numerical variable.
@@ -118,6 +127,7 @@ Summary statistics were generated for the numerical variables, including:
 The average customer tenure was approximately 32.37 months, while the average monthly charge was approximately 64.76.
 
 📈 2. Exploratory Data Analysis
+
 Exploratory Data Analysis was conducted to understand the customer base and investigate patterns associated with churn.
 The analysis examined:
 •	Overall churn rate
@@ -132,11 +142,13 @@ The analysis examined:
 •	Customer segments and churn
 
 📌 Overall Churn Rate
+
 The overall customer churn rate calculated from the dataset was:
 26.54%
 This indicates that approximately one in four customers in the dataset had churned.
 
 👥 Partner Status
+
 The distribution of customers by partner status was analyzed to understand the composition of the customer base and investigate its relationship with churn.
 
 👨👩👧 Dependents
@@ -157,6 +169,7 @@ Churn was analyzed across the different contract categories:
 Contract type was an important part of the churn analysis because it provides insight into the relationship between customer commitment and retention.
 
 💳 Payment Method
+
 The analysis also investigated churn across different payment methods.
 The payment methods included:
 •	Electronic check
@@ -165,6 +178,7 @@ The payment methods included:
 •	Credit card (automatic)
 
 🌐 Internet Service
+
 Churn was compared across internet service types, including:
 •	DSL
 •	Fiber optic
@@ -193,12 +207,14 @@ Very High
 Churn patterns were examined across these groups.
 
 🔀 Tenure × Contract Analysis
+
 The project also examined the interaction between:
 Tenure Group × Contract Type
 This provided a more detailed view of how customer tenure and contract commitment relate to churn.
 The segmentation variables were used for analysis but were subsequently removed before machine learning because they were created for exploratory purposes.
 
 ⚙️ 4. Preparing Data for Machine Learning
+
 Before training the models, the dataset was prepared for prediction.
 Removed Variables
 The following columns were removed:
@@ -232,6 +248,7 @@ The test set contained 1,409 customers, including:
 This imbalance was taken into consideration during model development.
 
  6. Data Preprocessing
+    
 A ColumnTransformer was used to process numerical and categorical variables separately.
 Numerical Variables
 The numerical variables were:
@@ -249,7 +266,8 @@ drop="first"
 handle_unknown="ignore"
 The preprocessing was incorporated into machine learning pipelines to ensure consistent transformation during training and prediction.
 
- 7. Random Forest Model
+ 8. Random Forest Model
+    
 A Random Forest Classifier was initially developed.
 The model used:
 RandomForestClassifier(
@@ -267,6 +285,7 @@ Test Accuracy	79.21%
 The large difference between training and test accuracy was also an indication that the Random Forest was fitting the training data very strongly and required careful evaluation on unseen data.
 
 🔎 8. Feature Importance & Feature Selection
+
 Feature importance was examined using the Random Forest model to understand which variables contributed to churn prediction.
 Feature importance was visualized and used as a basis for feature selection.
 SelectFromModel was then used to select important features.
@@ -293,6 +312,7 @@ Overall accuracy:
 79%
 
  10. XGBoost + Feature Selection + SMOTE
+     
 A second XGBoost pipeline was developed by adding feature selection.
 The workflow became:
 Preprocessing
@@ -312,7 +332,8 @@ Overall accuracy:
 Although the overall accuracy was slightly lower than the previous XGBoost model, recall for the churn class improved from 59% to 66%.
 This made the model more useful for the project’s objective of identifying customers who may churn.
 
- 11. Hyperparameter Tuning
+ 12. Hyperparameter Tuning
+     
 The XGBoost model with feature selection and SMOTE was selected for further optimization.
 GridSearchCV was used with:
 •	5-fold cross-validation
@@ -329,7 +350,8 @@ The search evaluated:
 324 parameter combinations
 1,620 total fits
 
- 12. Best Hyperparameters
+ 14. Best Hyperparameters
+     
 The best-performing parameter combination was:
 {
     "classifier__colsample_bytree": 0.8,
@@ -343,6 +365,7 @@ The best cross-validation F1-score was:
 0.6383
 
 📈 13. Final Model Performance
+
 The tuned XGBoost model was evaluated on the unseen test dataset.
 Overall Accuracy
 76.65%
@@ -360,6 +383,7 @@ This means it correctly identified approximately 78% of the customers in the tes
 For a churn-retention use case, correctly identifying customers who are at risk of leaving can be more valuable than maximizing overall accuracy alone.
 
 14. Business Recommendations
+    
 The analysis can support several customer retention strategies.
 1: Target Month-to-Month Customers
 Evidence
@@ -430,7 +454,8 @@ Examples:
 •	Exclusive loyalty offers 
 •	Personalized account management
 
-15. Model Persistence
+16. Model Persistence
+    
 The final tuned model was saved using Joblib:
 joblib.dump(
     best_model,
@@ -456,6 +481,7 @@ Development Environment
 •	Jupyter Notebook
 
 📌 Conclusion
+
 This project demonstrates an end-to-end approach to customer churn analysis and prediction.
 The project progressed from data inspection and cleaning, through exploratory analysis and customer segmentation, to feature selection, class-imbalance handling, model comparison, hyperparameter tuning, and final model evaluation.
 The final tuned XGBoost model achieved 76.65% overall accuracy and 78% recall for the churn class on the test dataset.
